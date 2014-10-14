@@ -1,13 +1,13 @@
-## serenity-discussion-api is a Challenge API Service
+## [REPLACE WITH YOUR REPO NAME]
 
-The topcoder Discussion API was initially built using the [Apigee a127 scaffolding](https://github.com/apigee-127/a127-documentation/wiki).
+The [REPLACE WITH YOUR REPO NAME] was initially built using the [Apigee a127 scaffolding](https://github.com/apigee-127/a127-documentation/wiki).
 
 Routing is handled by using the swagger config file at api\swagger\swagger.yaml.
 Routing is done using [swagger tools](https://github.com/apigee-127/swagger-tools) and the [a127-magic](https://github.com/apigee-127/magic) modules.
 
 ## Swagger
 
-The documentaiton for the API and resources are in swagger.  You can view the swagger config using a127 tools or the built in Swagger UI.
+The documentation for the API and resources are in swagger.  You can view the swagger config using a127 tools or the built in Swagger UI.
 
 To Edit/view swagger config run ```a127 project edit``` from project root
 You can also view the swagger config via the /docs url when the project is running.
@@ -39,9 +39,14 @@ Configuration:
             host: host
             port: 5432
         pgURL:
+        loadDoc: true
+        docOnly: false
 ```
 
-For the database connection you can either use the pg object or the pgURL.  The pgURL is looked for first and will override the pg.
+* For the database connection you can either use the pg object or the pgURL.  The pgURL is looked for first and will override the pg.
+* loadDoc:  Load Swagger UI. See Built in Swagger Documentation section of readme.
+* docOnly:  Do not load a127 middleware.  See Built in Swagger Documentation section of readme.
+
 
 ### Built in Swagger Documentation
 
@@ -84,4 +89,4 @@ You can run the server using ```grunt``` which will use the local config.
 ## Tests
 
 Tests are built using mocha tests.   They can be run with ```grunt test```.  
-There is an example postman configuration file at test/postman.json.  This can be imported into Postman for testing.
+Any example postman configuration files should be in at test/postman.  This can be imported into Postman for testing.
