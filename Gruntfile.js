@@ -1,5 +1,9 @@
 'use strict';
 
+var paths = {
+  js: ['*.js', 'api/**/*.js', '!test/coverage/**', '!bower_components/**']
+};
+
 module.exports = function(grunt) {
   var databaseUrl;
 
@@ -7,15 +11,12 @@ module.exports = function(grunt) {
   var swagger;
   var swagger_file = __dirname + '/api/swagger/swagger.yaml';
 
-  var paths = {
-    js: ['*.js', 'api/**/*.js', '!test/coverage/**', '!bower_components/**']
-  };
-
   if (process.env.NODE_ENV !== 'production') {
     require('time-grunt')(grunt);
   }
 
   var envConfig = require('config');
+
 
   if (envConfig.has('app.pgURL')) {
     databaseUrl = envConfig.get('app.pgURL');
@@ -26,8 +27,6 @@ module.exports = function(grunt) {
     ':' + envConfig.get('app.pg.port') +
     '/' + envConfig.get('app.pg.database');
   }
-
-
 
   // Project Configuration
   grunt.initConfig({
@@ -79,9 +78,9 @@ module.exports = function(grunt) {
     migrate: {
       options: {
         env: {
-          DATABASE_URL: databaseUrl   // the databaseUrl is resolved at the beginning based on the NODE_ENV, this value injects the config in the database.json
+          DATABASE_URL: databaseUrl   // the databaseUrl is resolved at the beginning based on the NODE_ENV
         },
-        'dir': 'config/schema-migrations', // defines the dir for the migration scripts
+        'migrations-dir': 'config/schema-migrations', // defines the dir for the migration scripts
         verbose: true   // tell me more stuff
       }
     },
@@ -98,7 +97,6 @@ module.exports = function(grunt) {
 
   //Load NPM tasks
   require('load-grunt-tasks')(grunt);
-  grunt.loadNpmTasks('grunt-contrib-jshint');
 
   //Default task(s).
   if (process.env.NODE_ENV === 'production') {
@@ -107,43 +105,45 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['env:local', 'jshint', 'concurrent']);
   }
 
+  grunt.registerTask('validate', ['env:test', 'mochaTest', 'jshint']);
+
   //Test task.
-  grunt.registerTask('test', ['env:test', 'mochaTest']);
+  grunt.registerTask('test', ['env:test', 'dbmigrate', 'mochaTest', 'yamlTest', 'jshint']);
 
   // For Heroku users only.
   grunt.registerTask('heroku:production', ['jshint']);
 
   // db migrate
-  grunt.registerTask('dbmigrate', 'db up all the applicable scripts', function () {
+  grunt.registerTask('dbmigrate', 'db up all the appliable scripts', function () {
     grunt.task.run('migrate:up');
-  });  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.registerTask('dbdown', 'db down all the applicable scripts', function () {
+  });
+  grunt.registerTask('dbdown', 'db down all the appliable scripts', function () {
     grunt.task.run('migrate:down');
   });
 
   // yaml tester for ./api/swagger/swagger.yaml
-  grunt.task.registerTask('yamlTest', 'Test Swagger spec file', function() {
+  grunt.task.registerTask('yamlTest', 'Test Swagger spec file', function () {
 
-  // load the grunt-swagger-tools
-  try {
-    // https://www.npmjs.org/package/grunt-swagger-tools
-    swagger = require('grunt-swagger-tools')();
+    // load the grunt-swagger-tools
+    try {
+      // https://www.npmjs.org/package/grunt-swagger-tools
+      swagger = require('grunt-swagger-tools')();
 
-    // // Setup 2.0 Swagger spec compliant using YAML format
-    swagger.validator.set('fileext', '.yaml');
+      // // Setup 2.0 Swagger spec compliant using YAML format
+      swagger.validator.set('fileext', '.yaml');
 
-    // No logging of loaded YAML data
-    swagger.validator.set('log', 'true');
+      // No logging of loaded YAML data
+      swagger.validator.set('log', 'true');
 
-    // Run the validator on file at swagger_file
-    console.log('YAML Test for file: ' + swagger_file + '\n');
-    re = swagger.validator.Validate(swagger_file, undefined, {version: '2.0'});
+      // Run the validator on file at swagger_file
+      console.log('YAML Test for file: ' + swagger_file + '\n');
+      re = swagger.validator.Validate(swagger_file, undefined, {version: '2.0'});
 
-  } catch (e) { re = e.message; }
+    } catch (e) {
+      re = e.message;
+    }
 
     // If has error, result in console
     console.log('YAML 2.0 RESULT: ' + re + '\n');
   });
-
 };
-
