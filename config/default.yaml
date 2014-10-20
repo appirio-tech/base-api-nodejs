@@ -2,3 +2,5 @@ app:
   port: 10010
   loadDoc: true
   docOnly: true
+  query:
+    pageSize: 20

@@ -5,10 +5,21 @@ The [REPLACE WITH YOUR REPO NAME] was initially built using the [Apigee a127 sca
 Routing is handled by using the swagger config file at api\swagger\swagger.yaml.
 Routing is done using [swagger tools](https://github.com/apigee-127/swagger-tools) and the [a127-magic](https://github.com/apigee-127/magic) modules.
 
+## What's included
+
+* Swagger API integrating using swagger-tools
+* newrelic integration.  Set the NEW_RELIC_LICENSE_KEY variable to the key and update newrelic.js
+* configuration mgmt using the node-config module
+* postgres database bootstrapping and schema mgmt using dbmigrate
+* tests using Mocha
+* travis CI integration
+* wercker automated deployment integration
+* router, param and controller helper files
+* built in swagger UI at /docs
+
 ## Samples
 
 You can see sample implementations of this code base:
-* https://github.com/appirio-tech/lc1-discussion-service
 * https://github.com/appirio-tech/lc1-challenge-service
 
 ## Swagger
@@ -47,11 +58,15 @@ Configuration:
         pgURL:
         loadDoc: true
         docOnly: false
+        query:
+            pageSize: 20
 ```
 
 * For the database connection you can either use the pg object or the pgURL.  The pgURL is looked for first and will override the pg.
 * loadDoc:  Load Swagger UI. See Built in Swagger Documentation section of readme.
 * docOnly:  Do not load a127 middleware.  See Built in Swagger Documentation section of readme.
+* settings for default query paramater
+    * pageSize:  the number of records to return in a request
 
 
 ### Built in Swagger Documentation
