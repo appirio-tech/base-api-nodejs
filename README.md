@@ -5,6 +5,12 @@ The [REPLACE WITH YOUR REPO NAME] was initially built using the [Apigee a127 sca
 Routing is handled by using the swagger config file at api\swagger\swagger.yaml.
 Routing is done using [swagger tools](https://github.com/apigee-127/swagger-tools) and the [a127-magic](https://github.com/apigee-127/magic) modules.
 
+## Samples
+
+You can see sample implementations of this code base:
+* https://github.com/appirio-tech/lc1-discussion-service
+* https://github.com/appirio-tech/lc1-challenge-service
+
 ## Swagger
 
 The documentation for the API and resources are in swagger.  You can view the swagger config using a127 tools or the built in Swagger UI.
@@ -88,5 +94,5 @@ You can run the server using ```grunt``` which will use the local config.
 
 ## Tests
 
-Tests are built using mocha tests.   They can be run with ```grunt test```.  
+Tests are built using mocha tests.   They can be run with ```grunt test```.
 Any example postman configuration files should be in at test/postman.  This can be imported into Postman for testing.
