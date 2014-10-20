@@ -18,7 +18,10 @@ module.exports = function(grunt) {
   var envConfig = require('config');
 
 
-  if (envConfig.has('app.pgURL')) {
+  // @TODO setup test heroku so we don't need this
+  if (envConfig.has('app.pgURLWercker')) {
+    databaseUrl = envConfig.get('app.pgURLWercker');
+  } else if (envConfig.has('app.pgURL')) {
     databaseUrl = envConfig.get('app.pgURL');
   } else {
     databaseUrl =  'postgres://' + envConfig.get('app.pg.username') +
@@ -97,6 +100,7 @@ module.exports = function(grunt) {
 
   //Load NPM tasks
   require('load-grunt-tasks')(grunt);
+  grunt.loadNpmTasks('grunt-contrib-jshint');
 
   //Default task(s).
   if (process.env.NODE_ENV === 'production') {
@@ -114,15 +118,15 @@ module.exports = function(grunt) {
   grunt.registerTask('heroku:production', ['jshint']);
 
   // db migrate
-  grunt.registerTask('dbmigrate', 'db up all the appliable scripts', function () {
+  grunt.registerTask('dbmigrate', 'db up all the applicable scripts', function () {
     grunt.task.run('migrate:up');
-  });
-  grunt.registerTask('dbdown', 'db down all the appliable scripts', function () {
+  });  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.registerTask('dbdown', 'db down all the applicable scripts', function () {
     grunt.task.run('migrate:down');
   });
 
   // yaml tester for ./api/swagger/swagger.yaml
-  grunt.task.registerTask('yamlTest', 'Test Swagger spec file', function () {
+  grunt.task.registerTask('yamlTest', 'Test Swagger spec file', function() {
 
     // load the grunt-swagger-tools
     try {
@@ -139,9 +143,7 @@ module.exports = function(grunt) {
       console.log('YAML Test for file: ' + swagger_file + '\n');
       re = swagger.validator.Validate(swagger_file, undefined, {version: '2.0'});
 
-    } catch (e) {
-      re = e.message;
-    }
+    } catch (e) { re = e.message; }
 
     // If has error, result in console
     console.log('YAML 2.0 RESULT: ' + re + '\n');
