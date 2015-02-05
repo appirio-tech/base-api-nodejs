@@ -13,7 +13,6 @@ Routing is done using [swagger tools](https://github.com/apigee-127/swagger-tool
 * postgres database bootstrapping and schema mgmt using dbmigrate
 * tests using Mocha
 * travis CI integration
-* wercker automated deployment integration
 * router, param and controller helper files
 * built in swagger UI at /docs
 
@@ -78,14 +77,12 @@ The server can be a documentation only server by setting ```app.docOnly = true``
 
 ## Models
 
-We are following a similar patterns to access patterns as we do in the serenity-core repo.
-
 Use a model:
 
 Example for Message model
 
 ```javascript
-var datasource = require('./datasource');
+var datasource = require('serenity-datasource');
 var Message = datasource.Message;
 
 // Message is now a Sequelize Model
