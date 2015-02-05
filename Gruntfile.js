@@ -85,15 +85,6 @@ module.exports = function(grunt) {
         'migrations-dir': 'config/schema-migrations', // defines the dir for the migration scripts
         verbose: true   // tell me more stuff
       }
-    },
-    env: {
-      test: {
-        NODE_ENV: 'test',
-        A127_APPROOT: __dirname
-      },
-      local: {
-        NODE_ENV: 'local'
-      }
     }
   });
 
@@ -102,16 +93,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
 
   //Default task(s).
-  if (process.env.NODE_ENV === 'production') {
-    grunt.registerTask('default', ['jshint', 'concurrent']);
-  } else {
-    grunt.registerTask('default', ['env:local', 'jshint', 'concurrent']);
-  }
-
-  grunt.registerTask('validate', ['env:test', 'mochaTest', 'jshint']);
+  grunt.registerTask('default', ['jshint', 'concurrent']);
 
   //Test task.
-  grunt.registerTask('test', ['env:test', 'dbmigrate', 'mochaTest', 'yamlTest', 'jshint']);
+  grunt.registerTask('test', ['dbmigrate', 'mochaTest', 'yamlTest', 'jshint']);
 
   // For Heroku users only.
   grunt.registerTask('heroku:production', ['jshint']);
