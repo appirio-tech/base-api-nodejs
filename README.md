@@ -63,3 +63,55 @@ Before we can run the tests, we will need to setup our database.
 
 At this point you should be able test with all of them failing.
 
+### Part 3 Create Schema
+
+Since we have a fully documented API in teh swagger.yaml file, we can pull out the implied database schema.
+
+Looking at the definitions section we see the following:
+
+      Pet:
+        required:
+          - id
+          - name
+        properties:
+          id:
+            type: integer
+            format: int64
+          name:
+            type: string
+          tag:
+            type: string
+
+
+This translates to the following in postgres.
+
+```
+CREATE TABLE pets
+(
+  name character varying,
+  id bigint NOT NULL,
+  CONSTRAINT id PRIMARY KEY (id)
+)
+```
+
+Let's add this to our schema migration.
+
+1. Run `grunt migrate:create:add-pets` to generate the migration file.
+2. Update the migrtion script with the following:
+
+```javascript
+exports.up = function (db, callback) {
+  db.createTable('pets', {
+    id: { type: 'int', primaryKey: true },
+    name: 'string'
+  }, callback);
+};
+
+exports.down = function (db, callback) {
+  db.dropTable('pets', callback);
+};
+```
+
+3. Run `grunt dbmigrate` to create the table.
+
+Now you have a working database migration stored in a file which will be easy to deploy.
