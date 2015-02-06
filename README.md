@@ -22,7 +22,7 @@ This is the base repository with the boilerplate code to get your started.  It c
 * datasource.js: Initializes the Database and the models
 * Grunt.js: Contains several grunt tasks to help automate development
     * default: Runs jshint on all models and controllers, starts the node process with certain environmental variables.
-    * test: Runs tests, validates the swagger yaml file and rusn jshint.
+    * test: Runs tests, validates the swagger yaml file and runs jshint.
     * dbmigrate:up: Run the migration scripts on the database.  The database should be configured to point to a test database.
     * dbmigrate:down: Back down a database migration
     * yamTest: Validate the swagger yaml file
@@ -30,3 +30,7 @@ This is the base repository with the boilerplate code to get your started.  It c
 * newrelic.js: Newrelic configuration file
 * Procfile: Heroku process control
 * sample.env: A sample file to be used as .env
+
+### Step 1 Create the Swagger Document
+
+Swagger is used to built out the routes and API documentation.  We take a Documentation first approach to building API's.

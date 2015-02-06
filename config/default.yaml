@@ -1,8 +1,6 @@
 app:
   port: 10010
   loadDoc: true
-  tcApi: http://qa.topcoder.com/v2
-  tcUser: http://dev-lc1-user-service.herokuapp.com
   query:
     pageSize: 1000
 ui:
