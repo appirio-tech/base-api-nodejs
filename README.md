@@ -31,6 +31,15 @@ This is the base repository with the boilerplate code to get your started.  It c
 * Procfile: Heroku process control
 * sample.env: A sample file to be used as .env
 
-### Step 1 Create the Swagger Document
+### Part 1 Create the Swagger Document
 
-Swagger is used to built out the routes and API documentation.  We take a Documentation first approach to building API's.
+Swagger is used to built out the routes and API documentation.  We take a [Documentation first](http://appirio.com/category/tech-blog/2014/10/writing-documentation-first-api) approach to building API's.
+
+We will be using the modified version of the swagger file from https://github.com/swagger-api/swagger-spec/blob/master/examples/v2.0/yaml/petstore-expanded.yaml.  The differences being in removing the "allOf" which is not supported and adding a few a127 specific elements.  The a127 elements will be described when we use them.
+
+1. Create a new file at `api/swagger/swagger.yaml`
+2. Use this swagger file: https://gist.github.com/indytechcook/6c6dd0f3e3d68dee853b
+3. 	Run `node app.js`
+4. Go to `http://localhost:10010/docs`
+
+At this point you should have a working Swagger UI.  We don't have any functional API's yet but you have the beginnings on one.
