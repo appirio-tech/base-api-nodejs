@@ -14,6 +14,12 @@ Each step will be a new git tag with new instructions in this file.
 1. Implement Authorization
 1. Setup configuration
 
+### Prereqresits software
+
+* Postgres
+* node
+* npm
+
 ### Base
 
 This is the base repository with the boilerplate code to get your started.  It contains the following files.
@@ -43,3 +49,17 @@ We will be using the modified version of the swagger file from https://github.co
 4. Go to `http://localhost:10010/docs`
 
 At this point you should have a working Swagger UI.  We don't have any functional API's yet but you have the beginnings on one.
+
+### Part 2 Create the Test
+
+Like any good application developer, we will follow TDD (Test Driven Development) and create our tests.
+
+Included in the code base is mocha, should and supertest to help you write your tests.  The tests included are very limited and should be expanded to include the /pets quering and error responses.
+
+Before we can run the tests, we will need to setup our database.
+
+1. Create a database named `petstore`
+2. Update the local.yaml file with your postgres connection url `postgres://postgres@localhost:5432/petstore`
+
+At this point you should be able test with all of them failing.
+

@@ -7,7 +7,7 @@ ui:
   swaggerUi: '/docs'
   apiDocs: '/api/docs'
 datasource:
-  pgURL: 'postgres://postgres@localhost:5432/travis_ci_test'
+  pgURL: 'postgres://indytechcook@localhost:5432/petstore'
   modelsDirectory: './api/models'
   dbOptions:
     native: true
