@@ -117,16 +117,20 @@ definitions:
         format: int64
       name:
         type: string
-      tag:
-        type: string
+      tags:
+        type: array
+        items:
+          type: string
   NewPet:
     required:
       - name
     properties:
       name:
         type: string
-      tag:
-        type: string
+      tags:
+        type: array
+        items:
+          type: string
   Error:
     required:
       - code
