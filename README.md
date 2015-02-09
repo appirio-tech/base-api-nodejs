@@ -117,3 +117,41 @@ exports.down = function (db, callback) {
 3. Run `grunt dbmigrate` to create the table.
 
 Now you have a working database migration stored in a file which will be easy to deploy.
+
+### Part 4 Create Models
+
+Now let's define our models to match our database schema.  We use [Sequlize](http://sequelizejs.com/) as our ORM to connect to PostgreSQL.  The connection it bootstrapped via the datasource.js file and the serenity-datasource npm module.  The models are imported using the [Sequelize.import](http://sequelize.readthedocs.org/en/latest/docs/models/index.html#import) command
+
+Our models expect a function where the sequlize object is the first argument and the DataTypes are the second.
+
+1. In the folder `api/models` create a file called `pet.js`
+2. Paste in the following:
+
+```javascript
+/**
+ * Represent a Pet.
+ */
+'use strict';
+
+/**
+* Defining Challenge model
+*/
+module.exports = function(sequelize, DataTypes) {
+
+  var Pet = sequelize.define('Pet', {
+    // primary key
+    id: {
+      type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true,
+      get: function() {
+        return parseInt(this.getDataValue('id'));
+      }
+    },
+    name: DataTypes.STRING(140)
+  });
+
+  return Pet;
+
+};
+```
+
+We defined the model to match the database schema and the structure of the swagger yaml Pet definition.  
