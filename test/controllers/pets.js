@@ -4,8 +4,6 @@ var should = require('should');
 var request = require('supertest');
 var server = require('../../app');
 
-var helper = require('./../helper/helper');
-
 describe('controllers', function() {
 
   describe('pets', function() {
@@ -13,7 +11,8 @@ describe('controllers', function() {
     var petId;
     beforeEach(function(done) {
       reqData = {
-        name: 'Cat'
+        name: 'Sam',
+        tags: ['feline', 'cat']
       };
       done();
     });
@@ -33,7 +32,8 @@ describe('controllers', function() {
           res.status.should.equal(200);
 
           res.body.id.should.be.a.Number;
-          res.body.name.should.equal('Cat');
+          res.body.name.should.equal('Same');
+          res.body.tags.should.equal(['feline', 'cat']);
           petId = res.body.id;
           done();
         });
@@ -68,7 +68,8 @@ describe('controllers', function() {
 
           res.status.should.equal(200);
           res.body.id.should.equal(petId);
-          res.body.name.should.equal('Cat');
+          res.body.name.should.equal('Sam');
+          res.body.tags.should.equal(['feline', 'cat']);
 
           done();
         });
