@@ -1,7 +1,8 @@
 exports.up = function (db, callback) {
   db.createTable('pets', {
     id: { type: 'int', primaryKey: true },
-    name: 'string'
+    name: 'string',
+    tag: 'text'
   }, callback);
 };
 
