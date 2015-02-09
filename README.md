@@ -88,9 +88,10 @@ This translates to the following in postgres.
 ```
 CREATE TABLE pets
 (
+  id integer NOT NULL,
   name character varying,
-  id bigint NOT NULL,
-  CONSTRAINT id PRIMARY KEY (id)
+  tag text,
+  CONSTRAINT pets_pkey PRIMARY KEY (id)
 )
 ```
 
@@ -103,7 +104,8 @@ Let's add this to our schema migration.
 exports.up = function (db, callback) {
   db.createTable('pets', {
     id: { type: 'int', primaryKey: true },
-    name: 'string'
+    name: 'string',
+    tag: 'text'
   }, callback);
 };
 
