@@ -12,7 +12,6 @@ describe('controllers', function() {
     beforeEach(function(done) {
       reqData = {
         name: 'Sam',
-        tags: ['feline', 'cat']
       };
       done();
     });
@@ -33,7 +32,6 @@ describe('controllers', function() {
 
           res.body.id.should.be.a.Number;
           res.body.name.should.equal('Same');
-          res.body.tags.should.equal(['feline', 'cat']);
           petId = res.body.id;
           done();
         });
@@ -69,7 +67,6 @@ describe('controllers', function() {
           res.status.should.equal(200);
           res.body.id.should.equal(petId);
           res.body.name.should.equal('Sam');
-          res.body.tags.should.equal(['feline', 'cat']);
 
           done();
         });

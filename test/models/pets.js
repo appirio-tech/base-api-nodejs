@@ -28,8 +28,7 @@ describe('<Unit Test>', function() {
     beforeEach(function(done) {
       // challenge data
       data = {
-        name: 'Hi MOm',
-        tags: ['tag1', 'tag2']
+        name: 'Hi Mom',
       };
       done();
     });
@@ -41,7 +40,6 @@ describe('<Unit Test>', function() {
           savedEntity.id.should.be.a.Number;
           savedEntity.id.should.not.have.length(0);
           savedEntity.title.should.equal(data.name);
-          savedEntity.tags.should.equal(data.tags);
           done();
         })
           .error(function(err) {

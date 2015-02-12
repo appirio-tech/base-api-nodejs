@@ -43,14 +43,6 @@ a127.init(function (swaggerConfig) {
     // @TODO add try/catch logic
   datasource.init(config);
   partialResponseHelper = new ResponseHelper(datasource);
-
-  var port;
-  if (config.has('app.port')) {
-    port = config.get('app.port');
-  } else {
-    port = 10010;
-  }
-
   app.use(partialResponseHelper.parseFields);
 
   // a127 middlewares
@@ -78,6 +70,13 @@ a127.init(function (swaggerConfig) {
 
   // render response data as JSON
   app.use(routeHelper.middleware.renderJson);
+
+  var port;
+  if (config.has('app.port')) {
+    port = config.get('app.port');
+  } else {
+    port = 10010;
+  }
 
   app.listen(port);
 
