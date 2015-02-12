@@ -11,8 +11,7 @@ Each step will be a new git tag with new instructions in this file.
 1. Create Schema
 1. Create Models
 1. Create Controllers
-1. Implement Authorization
-1. Setup configuration
+1. Wire it all up
 
 ### Prereqresits software
 
@@ -154,4 +153,96 @@ module.exports = function(sequelize, DataTypes) {
 };
 ```
 
-We defined the model to match the database schema and the structure of the swagger yaml Pet definition.  
+We defined the model to match the database schema and the structure of the swagger yaml Pet definition.
+  
+### Part 5 Create the controllers
+
+Creating the controllers are very easy using the serenity-controller-helper module.  The controller helper builds out common functionality for controllers.  We can create the controller needed for to access the Pet data with only 14 lines of code:
+
+```javascript
+'use strict';
+
+var datasource = require('./../../datasource').getDataSource();
+var Pet = datasource.Pet;
+var serenityControllerHelper = require('serenity-controller-helper');
+var config = require('config');
+var controllerHelper = new serenityControllerHelper(config);
+
+// build controller
+var petController = controllerHelper.buildController(Pet, [], {filtering: true});
+
+module.exports = {
+  findPets: petController.all,
+  addPet: petController.create,
+  findPetById: petController.get,
+  updatePet: petController.update,
+  deletePet: petController.delete
+};
+```
+
+### Part 6 Wire it all up
+
+In the app.js file we wire up all of the middlewares.
+
+Wire up the database.
+
+```javascript
+  datasource.init(config);
+```
+
+Allow the use of the Google Partial Respone Pattern to access related Data.  See below for examples.
+
+```javascript
+  partialResponseHelper = new ResponseHelper(datasource);
+  app.use(partialResponseHelper.parseFields);
+```
+
+Go a127 Go!
+
+```javascript
+  app.use(a127.middleware(swaggerConfig));
+```
+
+Display the swagger documentation UI
+
+```javascript
+  // Serve the Swagger documents and Swagger UI
+  if (config.has('app.loadDoc') && config.get('app.loadDoc')) {
+    // adding ui options
+    var swaggerTools = swaggerConfig['a127.magic'].swaggerTools;
+    app.use(swaggerTools.swaggerUi({
+      swaggerUi: config.ui.swaggerUi,
+      apiDocs: config.ui.apiDocs
+    }));
+  }
+```
+
+
+Add an error handing
+
+``` javascript
+  // Add logging
+  app.use(function(err, req, res, next) {
+    if (err) {
+      winston.error(err.stack || JSON.stringify(err));
+      routeHelper.middleware.errorHandler(err, req, res, next);
+    } else {
+      next();
+    }
+  });
+```
+
+Respond with JSON
+
+```javascript
+  // render response data as JSON
+  app.use(routeHelper.middleware.renderJson);
+```
+
+GO SERVER GO!
+
+```javascript
+  app.listen(port);
+```
+
+
